@@ -18,7 +18,7 @@ import java.time.Duration;
 public class Driver {
     // her seferinde driveri belirlemek icin ?
 
-    public static WebDriver driver;
+    static WebDriver driver;
     public static WebDriver getDriver() {
 
         if (driver == null) {
@@ -59,12 +59,10 @@ public class Driver {
                     driver.manage().window().maximize();
                     break;
 
-
             }
         }
         //driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
 
-            WebDriver driver = new ChromeDriver();
 
             return driver;
         }

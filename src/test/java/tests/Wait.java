@@ -5,6 +5,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.annotations.Test;
 import utilities.Driver;
 import utilities.TestBase;
 
@@ -12,37 +13,38 @@ import java.time.Duration;
 
 public class Wait extends TestBase {
 
-    public void waitTest(){
+       /*
+    Kullanıcı https://the-internet.herokuapp.com/dynamic_controls sayfasına gider.
+    Kullanıcı Remove Butonuna tıklar.
+    Kullanıcı "It's gone!" mesajını görür ve doğrular.
+    Hard Wait = > Thread.sleep(1000); Her halükarda bekleme yapar
+    Dinami Wait'ler:
+    implicit Wait = > Driver'ın yolu üzerindeki elemanların ortaya çıkamı için dinamik bekleme yapar. Eğer element belirlenen süre içerisinde çıkmazsa hata verir.
+    expilcitly Wait = > Driver özel olarak bir element'i bekelr. Çıkamazsa hata verir.
+    Hem implicitly hem de explicitly wait element'in erken orataya çıkaması ile beklemeyi sonrlandırır.
+     */
 
-        // Hard wait : Thread.sleep(1000) her halükarda beklem yapar.
-        // implicitly wait driverin yolu üzerindeki elemanlarin ortaya cikmasi iin dinamik bekleme yapar.
-                    // eger eleman belirlenen süre icerisdnde cikmaz ise test fail eder.
-        // explicitlywait -> Driver özel olarak bir elementi bekler. Cikmazsa hata verir.
-        // Implicitly wait ve explicitly wait elementin ortaya cikmasi ile beklemyi sonlandirir.
-        // Her ikisi de dinamik WAit dir.
 
+    @Test
+    public void waitTest() {
 
-        //1. Kullanici "" sayfasina gider.
         Driver.getDriver().get("https://the-internet.herokuapp.com/dynamic_controls");
-
-        //2. Kullanici Remove butonuna tiklar.
-        WebElement removeButton = Driver.getDriver().findElement(By.xpath("//button[@autocomplete='off']"));
+        WebElement removeButton = Driver.getDriver().findElement(By.xpath("//button[text()='Remove']"));
         removeButton.click();
 
-        //3. It's gone! mesajini görür ve dogrular.
         String expectedMessageText = "It's gone!";
 
-            // wait objesini olusturma sebebi, özel bir butona tiklandiginda beklemek icin wait  objesini atiyoruz.
-        // senkronizasyon icin gerekli!!
-        WebDriverWait wait = new WebDriverWait(Driver.getDriver(), Duration.ofSeconds(10)); // wait object i olusturuldu. () arasina Driver ve bekleme süresi yazilir.
-        WebElement message = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("message"))); // Bu butona özel bir bekleme yapiyoruz.
+        // Explicitly wait : Bir elemana özel bekleme yapar. TestBase'den Implicitly Wait i kapatıp deneyebilirsiniz.
+        WebDriverWait wait = new WebDriverWait(Driver.getDriver(), Duration.ofSeconds(20)); // Bekleme için önce obje oluşturuyoruz.
+        WebElement message = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("message"))); // bu obje ile locate edeceğimiz elemanı özel bekliyoruz.
+
+        // Implicitly wait : Bunu denemek için yukarıdaki wait objesini kapatın aşağıdaki satırları yorumdan çıkarıp implictily ile wait'in çalışmasını kontrol edebilirsiniz.
+//      WebElement message2 = Driver.getDriver().findElement(By.id("message"));
+//      String actualMessageText2 = message2.getText();
+
         String actualMessageText = message.getText();
 
-        // WebElement obj = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id())); bu sekilde istedigimiz elemnti locate ederek istedigimiz süre kadar bekletebiliyoruz.
-
-        Assert.assertEquals(expectedMessageText, actualMessageText);
-
-
+        Assert.assertEquals(actualMessageText, expectedMessageText);
 
     }
 }

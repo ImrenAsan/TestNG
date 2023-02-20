@@ -8,15 +8,16 @@ import utilities.TestBase;
 
 public class UploadPage extends TestBase {
 
-    public UploadPage(){
-        PageFactory.initElements(Driver.getDriver(), this); // sayfa  icerisindeki tüm elemanlarin calismasini sagliyor.
+    public UploadPage() {
+        PageFactory.initElements(Driver.getDriver(), this);
     }
 
-    @FindBy (id = "File Uploaded!")
+    @FindBy(id = "file-upload")
     public WebElement chooseFile;
-    @FindBy // locate edilmeli!
-    public WebElement uploadBUtton;
 
-    @FindBy // locate edilmeli!!
+    @FindBy(id = "file-submit")
+    public WebElement uploadButton;
+
+    @FindBy(xpath = "//h3")
     public WebElement successMessage;
 }

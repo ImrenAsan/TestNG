@@ -2,6 +2,9 @@ package utilities;
 
 import org.junit.After;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
@@ -13,22 +16,20 @@ import java.util.concurrent.TimeUnit;
 import static utilities.Driver.driver;
 
 public class TestBase {
+    protected Actions actions = new Actions(Driver.getDriver());
+    protected WebDriverWait wait = new WebDriverWait(Driver.getDriver(), Duration.ofSeconds(10));
 
-        protected static WebDriver driver;
+    public ReUsableMethods reUsableMethods = new ReUsableMethods();
 
-        @BeforeClass
-        public void setUp(){
-            driver = Driver.getDriver();
-            driver.manage().window().maximize();
-            driver.manage().timeouts().implicitlyWait(50, TimeUnit.SECONDS);
+    @BeforeClass
+    public void setup(){
+        Driver.getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        // Proje nin asıl linki Configurations.properties dosyasına eklenir ve her testten önce proje sayfası açılması için bu metod içine eklenir.
+        // Ancak yaptığımız örnek testlerden dolayı birçok farklı link ile çalışıyoruz. Sabit bir proje linkimiz olmadığı için aşağıdaki kod satırı yoruma alınmıştır.
+        //Driver.getDriver().get(ConfigReader.getProperty("projectUrl"));//en son ödevde kullandigimiz (ödev7) url degistirilebilir.
     }
-
-        @AfterClass
-
-        public void tearDown(){
-        driver.close();
-
-
+    @AfterClass
+    public void tearDown(){
+        Driver.closeDriver();
     }
-
 }

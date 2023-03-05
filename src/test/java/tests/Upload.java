@@ -25,5 +25,6 @@ public class Upload extends TestBase {
         uploadPage.uploadButton.click(); Driver.wait(1);
         boolean actualResult = uploadPage.successMessage.isDisplayed();
         Assert.assertTrue(actualResult);
+
     }
 }
